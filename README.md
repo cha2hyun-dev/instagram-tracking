@@ -17,10 +17,11 @@
 1. 크롬개발자모드 네트워크탭 preserve log 체크
 2. m.instagram.com/사용자id -> 팔로우 탭을 누름
 
-네트워크탭에서 요청을 확인해보자. json으로 response를 받는데. 요청은 인코딩 되어있으므로 https://meyerweb.com/eric/tools/dencoder/ 여기서 url 디코딩을 할 수 있다.
+네트워크탭에서 요청을 확인해보자. json으로 response를 받게됨
+요청은 인코딩 되어있으므로 https://meyerweb.com/eric/tools/dencoder/ 여기서 url 디코딩을 할 수 있음.
 
 
-1. 첫번째 요청 (팔로우 클릭시 발생하는 요청)
+1. 첫번째 요청 (팔로우 탭 클릭시 발생하는 요청)
 ```
 URL : https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d870b0e77e076&variables=%7B%22id%22%3A%22486054166%22%2C%22include_reel%22%3Atrue%2C%22fetch_mutual%22%3Afalse%2C%22first%22%3A24%7D
 ```
@@ -28,7 +29,7 @@ URL : https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d87
 URL decode : https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d870b0e77e076&variables={"id":"486054166","include_reel":true,"fetch_mutual":false,"first":24}
 ```
 
-2. 두번째 요청 (팔로우 탭에서 스크롤을 내려야함)
+2. 두번째 요청 (팔로우 탭 스크롤을 내리면 요청이 발생)
 ```
 URL : https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d870b0e77e076&variables=%7B%22id%22%3A%22486054166%22%2C%22include_reel%22%3Atrue%2C%22fetch_mutual%22%3Afalse%2C%22first%22%3A12%2C%22after%22%3A%22QVFEZmZoZUcyZW9DREtLekg5c05CVFdYV20tQm9KdkdPcC1vV2t1bjJ4cFhUVDhWQUlZLVhZTVJ1U3VyWFlhZC1BMVNDZ3JCXzF0QjEwTnV6ZXFSNGtkNA%3D%3D%22%7D
 ```
