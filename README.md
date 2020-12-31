@@ -1,8 +1,8 @@
-# 인스타그램 API를 활용한 크롤링
+# 인스타그램 특정 유저의 활동 트래킹
 
 ## 어떻게
-1. 일단 인스타그램 api를 최대한 활용하여 로그인 없이도 <b>초고속으로</b> 데이터를 받아올것임
-2. 만약 api에서 활용을 못하는 부분들은 python selenium을 이용해서 크롤링할것임
+1. 일단 인스타그램 api를 최대한 활용하여 로그인 없이 <b>엄청 빠른 속도로</b> 데이터를 받아옴
+2. 만약 api에서 활용을 못하는 부분들은 python selenium을 이용해서 크롤링
 
 ## 무엇을
 1.	유저의 팔로우 목록을 추출
@@ -10,17 +10,18 @@
 3.	그 사람들의 계정 탐색 (게시글의 좋아요, 댓글, 팔로우)
 4.	유저가 좋아요나 댓글단 것을 db저장 타임스탬프 필요
 5.  스케쥴러를 이용해서 일정한 시간마다 1~4번을 반복, 유저의 새로운 활동이 있을경우 db저장
+6.  유저의 새로운 활동을 출력함
 
-
-## 일단 연구 
+## 팔로워 연구 
 
 1. 크롬개발자모드 네트워크탭 preserve log 체크
 2. m.instagram.com/사용자id -> 팔로우 탭을 누름
 
-네트워크탭에서 요청을 확인해보자. json으로 response를 받는데. 요청은 인코딩 되어있으므로 https://meyerweb.com/eric/tools/dencoder/ 여기서 url 디코딩을 할 수 있다.
+네트워크탭에서 요청을 확인해보자. json으로 response를 받게됨
+요청은 인코딩 되어있으므로 https://meyerweb.com/eric/tools/dencoder/ 여기서 url 디코딩을 할 수 있음.
 
 
-1. 첫번째 요청 (팔로우 클릭시 발생하는 요청)
+1. 첫번째 요청 (팔로우 탭 클릭시 발생하는 요청)
 ```
 URL : https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d870b0e77e076&variables=%7B%22id%22%3A%22486054166%22%2C%22include_reel%22%3Atrue%2C%22fetch_mutual%22%3Afalse%2C%22first%22%3A24%7D
 ```
@@ -28,7 +29,7 @@ URL : https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d87
 URL decode : https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d870b0e77e076&variables={"id":"486054166","include_reel":true,"fetch_mutual":false,"first":24}
 ```
 
-2. 두번째 요청 (팔로우 탭에서 스크롤을 내려야함)
+2. 두번째 요청 (팔로우 탭 스크롤을 내리면 요청이 발생)
 ```
 URL : https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d870b0e77e076&variables=%7B%22id%22%3A%22486054166%22%2C%22include_reel%22%3Atrue%2C%22fetch_mutual%22%3Afalse%2C%22first%22%3A12%2C%22after%22%3A%22QVFEZmZoZUcyZW9DREtLekg5c05CVFdYV20tQm9KdkdPcC1vV2t1bjJ4cFhUVDhWQUlZLVhZTVJ1U3VyWFlhZC1BMVNDZ3JCXzF0QjEwTnV6ZXFSNGtkNA%3D%3D%22%7D
 ```
